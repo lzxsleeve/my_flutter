@@ -1,11 +1,16 @@
 /**
  * 弹窗集成界面
  *
- * Create by lzx on 2019/9/9 2019/7/24.
+ * Create by lzx on 2019/9/9.
  */
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_flutter/base/popup_window.dart';
+import 'package:my_flutter/res/colors.dart';
+import 'package:my_flutter/res/styles.dart';
+import 'package:my_flutter/routers/fluro_navigator.dart';
+import 'package:my_flutter/util/load_image.dart';
 import 'package:my_flutter/util/toast_util.dart';
 
 class DialogViewPage extends StatefulWidget {
@@ -16,6 +21,7 @@ class DialogViewPage extends StatefulWidget {
 }
 
 class _DialogViewState extends State<DialogViewPage> {
+  GlobalKey _addKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,12 +29,18 @@ class _DialogViewState extends State<DialogViewPage> {
         centerTitle: true,
         title: Text('DialogView'),
         actions: <Widget>[
-          buildPopupMenuButton(context),
+          IconButton(
+            key: _addKey,
+            icon: Icon(Icons.add),
+            color: Colors.white,
+            onPressed: _showPopupWindow,
+          )
         ],
       ),
       body: ListView(
         padding: EdgeInsets.all(10),
         children: <Widget>[
+          buildPopupMenuButton(context),
           RaisedButton(
             child: Text('SimpleDialog'),
             onPressed: () {
@@ -134,9 +146,87 @@ class _DialogViewState extends State<DialogViewPage> {
     );
   }
 
+  _showPopupWindow(){
+    final RenderBox button = _addKey.currentContext.findRenderObject();
+    final RenderBox overlay = Overlay.of(context).context.findRenderObject();
+    var a =  button.localToGlobal(Offset(button.size.width - 8.0, button.size.height - 12.0), ancestor: overlay);
+    var b =  button.localToGlobal(button.size.bottomLeft(Offset(0, - 12.0)), ancestor: overlay);
+    final RelativeRect position = RelativeRect.fromRect(
+      Rect.fromPoints(a, b),
+      Offset.zero & overlay.size,
+    );
+    showPopupWindow(
+      context: context,
+      fullWidth: false,
+      isShowBg: true,
+      position: position,
+      elevation: 0.0,
+      child: GestureDetector(
+        onTap: (){
+          NavigatorUtils.pop(context);
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(right: 12.0),
+              child: const LoadAssetImage("jt", width: 8.0, height: 4.0,),
+            ),
+            SizedBox(
+              width: 120.0,
+              height: 40.0,
+              child: FlatButton.icon(
+                  onPressed: (){
+
+                  },
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    ///顶部圆角
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(8.0), topRight: Radius.circular(8.0)),
+                  ),
+                  icon: const LoadAssetImage("ic_wx", width: 20.0, height: 20.0,),
+                  label: const Text("微信图标", style: TextStyles.textDark14,)
+              ),
+            ),
+            Container(width: 120.0, height: 0.6, color: Colours.line),
+            SizedBox(
+              width: 120.0,
+              height: 40.0,
+              child: FlatButton.icon(
+                  color: Colors.white,
+                  onPressed: (){
+
+                  },
+                  shape: RoundedRectangleBorder(
+                    ///底部圆角
+                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(8.0), bottomRight: Radius.circular(8.0)),
+                  ),
+                  icon: const LoadAssetImage("ic_alipay", width:20.0, height: 20.0,),
+                  label: const Text("支付宝嗷", style: TextStyles.textDark14)
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   // 菜单弹窗
   PopupMenuButton<String> buildPopupMenuButton(BuildContext context) {
     return PopupMenuButton<String>(
+      child: Container(
+        height: 36,
+        child: Card(
+          margin: EdgeInsets.all(0),
+          color: Color(0xffe0e0e0),
+          child: Center(
+            child: Text(
+              'PopupMenuButton',
+              style: TextStyles.textDark14,
+            ),
+          ),
+        ),
+      ),
       padding: EdgeInsets.all(0),
       offset: Offset(0, kToolbarHeight),
       onSelected: (String value) {
@@ -195,19 +285,24 @@ class _DialogViewState extends State<DialogViewPage> {
     );
   }
 
+  //Android的文字样式可能有问题
   Container buildCupertinoTimePicker(BuildContext context) {
     return Container(
-      height: 250,
-      child:CupertinoTimerPicker(
-        mode: CupertinoTimerPickerMode.hms, //可以设置时分、时分秒和分秒三种模式
-        initialTimerDuration: Duration(hours: 1, minutes: 35, seconds: 50), // 默认显示的时间值
-        minuteInterval: 5, // 分值间隔，必须能够被initialTimerDuration.inMinutes整除
-        secondInterval: 10, // 秒值间隔，必须能够被initialTimerDuration.inSeconds整除，此时设置为10，则选择项为0、10、20、30、40、50六个值
-        onTimerDurationChanged: (duration) {
-          print('当前选择了：${duration.inHours}时${duration.inMinutes-duration.inHours*60}分${duration.inSeconds-duration.inMinutes*60}秒');
-        },
-      )
-    );
+        height: 250,
+        child: CupertinoTimerPicker(
+          mode: CupertinoTimerPickerMode.hms,
+          //可以设置时分、时分秒和分秒三种模式
+          initialTimerDuration: Duration(hours: 1, minutes: 35, seconds: 50),
+          // 默认显示的时间值
+          minuteInterval: 5,
+          // 分值间隔，必须能够被initialTimerDuration.inMinutes整除
+          secondInterval: 10,
+          // 秒值间隔，必须能够被initialTimerDuration.inSeconds整除，此时设置为10，则选择项为0、10、20、30、40、50六个值
+          onTimerDurationChanged: (duration) {
+            print(
+                '当前选择了：${duration.inHours}时${duration.inMinutes - duration.inHours * 60}分${duration.inSeconds - duration.inMinutes * 60}秒');
+          },
+        ));
   }
 
   CupertinoActionSheet buildCupertinoActionSheet(BuildContext context) {

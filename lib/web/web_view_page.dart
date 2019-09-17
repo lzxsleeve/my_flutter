@@ -1,7 +1,7 @@
 /**
  * 网页 (暂时没有独立的错误界面)
  *
- * Create by lzx on 2019/8/30 2019/7/24.
+ * Create by lzx on 2019/8/30.
  */
 
 import 'package:flutter/cupertino.dart';
