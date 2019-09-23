@@ -310,7 +310,7 @@ class _DialogViewState extends State<DialogViewPage> {
       title: Text(
         '提示',
         style: TextStyle(fontSize: 22),
-      ), //标题
+      ),
       message: Text('麻烦抽出几分钟对该软件进行评价，谢谢!'), //提示内容
       actions: <Widget>[
         //操作按钮集合

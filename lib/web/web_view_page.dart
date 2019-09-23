@@ -76,6 +76,7 @@ class _WebViewState extends State<WebViewPage> {
               height: double.infinity,
               width: double.infinity,
               child: WebView(
+                javascriptMode: JavascriptMode.unrestricted,
                 navigationDelegate: (NavigationRequest request) {
                   print("lzx: OnUrlChange ${request.url}");
                   setState(() {
