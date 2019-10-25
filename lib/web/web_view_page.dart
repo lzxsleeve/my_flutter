@@ -19,7 +19,7 @@ class WebViewPage extends StatefulWidget {
   _WebViewState createState() => _WebViewState();
 }
 
-class _WebViewState extends State<WebViewPage> {
+class _WebViewState extends State<WebViewPage > {
   WebViewController webViewController;
   var loadingState = true;
 
