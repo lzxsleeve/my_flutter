@@ -88,13 +88,18 @@ class _WebViewState extends State<WebViewPage> {
                 onWebViewCreated: (WebViewController web) {
                   webViewController = web;
                 },
-                onPageFinished: (String value) {
+                onPageFinished: (String url) {
                   // webview 页面加载完成
-                  print('lzx: onPageFinished $value');
+                  print('lzx: onPageFinished $url');
+                  webViewController.getTitle().then((String title){
+                    print('lzx: getTitle() = $title');
+                  });
+
                   setState(() {
                     loadingState = false;
                   });
                 },
+
               ),
             ),
             Visibility(

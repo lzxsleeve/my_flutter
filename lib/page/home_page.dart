@@ -54,6 +54,10 @@ class _HomePageState extends State<HomePage> {
             () => NavigatorUtils.push(context, PageRouter.dialogPage)),
         _buildInk('Animation',
             () => NavigatorUtils.push(context, PageRouter.animPage)),
+        _buildInk('File',
+            () => NavigatorUtils.push(context, PageRouter.filePage)),
+        _buildInk('Test',
+            () => NavigatorUtils.push(context, PageRouter.testPage)),
         _buildInk('...', () => ToastUtil.show("敬请期待")),
       ],
     );
