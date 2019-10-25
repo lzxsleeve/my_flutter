@@ -19,9 +19,12 @@ class WebViewPage extends StatefulWidget {
   _WebViewState createState() => _WebViewState();
 }
 
-class _WebViewState extends State<WebViewPage > {
+class _WebViewState extends State<WebViewPage> {
   WebViewController webViewController;
-  var loadingState = true;
+  var _isHide = true;
+  var _currentUrl = '';
+  var _isError = false;
+  Container _otherView = _loadingView();
 
   @override
   Widget build(BuildContext context) {
@@ -79,58 +82,106 @@ class _WebViewState extends State<WebViewPage > {
                 javascriptMode: JavascriptMode.unrestricted,
                 navigationDelegate: (NavigationRequest request) {
                   print("lzx: OnUrlChange ${request.url}");
-                  setState(() {
-                    loadingState = true;
-                  });
                   return NavigationDecision.navigate;
                 },
-                initialUrl: widget.url, // 加载的url
+                initialUrl: widget.url,
+                // 加载的url
                 onWebViewCreated: (WebViewController web) {
                   webViewController = web;
                 },
                 onPageFinished: (String url) {
                   // webview 页面加载完成
                   print('lzx: onPageFinished $url');
-                  webViewController.getTitle().then((String title){
-                    print('lzx: getTitle() = $title');
-                  });
+                  if (!_isError) {
+                    setState(() {
+                      _isHide = false;
+                    });
+                  }
+                },
+                onPageReceiveError: (String url, int code, String description) {
+                  print("lzx: onError url = $url, code = $code, description = $description");
+                  if (_currentUrl == url) {
+                    print("lzx: onError: _currentUrl == url");
+                    _isError = true;
+                    setState(() {
+                      _isHide = true;
+                      _otherView = _errorView();
+                    });
+                  }
+                },
+                onPageStarted: (String url) {
+                  print("lzx: onPageStarted url=$url");
+                  _currentUrl = url;
+                  _isError = false;
 
                   setState(() {
-                    loadingState = false;
+                    _isHide = true;
+                    _otherView = _loadingView();
                   });
                 },
-
               ),
             ),
-            Visibility(
-              visible: loadingState,
-              child: Container(
-                alignment: Alignment.center,
-                color: Colors.white,
-                height: double.infinity,
-                width: double.infinity,
-                child: Container(
-                  width: 100,
-                  height: 100,
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      color: Color(0x88000000),
-                      borderRadius: BorderRadius.circular(6)),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      CircularProgressIndicator(),
-                      Text(
-                        '正在加载...',
-                        style: TextStyle(color: Colors.white),
-                      )
-                    ],
-                  ),
-                ),
+            // 显示 正在加载 或 加载错误 的界面
+            GestureDetector(
+              onTap: () {
+                ToastUtil.show("lzx");
+                if (_isError) {
+                  webViewController.reload();
+                }
+              },
+              child: Visibility(
+                visible: _isHide,
+                child: _otherView,
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+// webView的加载视图
+  static Widget _loadingView() {
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      decoration: BoxDecoration(color: Colors.white),
+      alignment: Alignment.center,
+      child: Container(
+        width: 100,
+        height: 100,
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(color: Color(0x88000000), borderRadius: BorderRadius.circular(6)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            CircularProgressIndicator(),
+            Text(
+              '正在加载',
+              style: TextStyle(color: Colors.white),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  static Widget _errorView() {
+    return Container(
+      // 添加背景颜色后，onTap全屏生效
+      color: Colors.white,
+      width: double.infinity,
+      height: double.infinity,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Image.asset(
+            'assets/images/pic_load_error.png',
+            height: 100,
+            width: 100,
+          ),
+          Text("加载失败，点击重试"),
+        ],
       ),
     );
   }

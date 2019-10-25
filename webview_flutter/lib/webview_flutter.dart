@@ -72,6 +72,14 @@ typedef NavigationDecision NavigationDelegate(NavigationRequest navigation);
 /// Signature for when a [WebView] has finished loading a page.
 typedef void PageFinishedCallback(String url);
 
+/// Signature for when a [WebView] receive a error.
+/// Code may be NSURLErrorDomain code or const from Android WebViewClient or http status code.
+/// Description is optional
+typedef void PageReceiveErrorCallback(String url, int code, String description);
+
+/// Signature for when a [WebView] has started loading a page.
+typedef void PageStartedCallback(String url);
+
 /// Specifies possible restrictions on automatic media playback.
 ///
 /// This is typically used in [WebView.initialMediaPlaybackPolicy].
@@ -140,6 +148,8 @@ class WebView extends StatefulWidget {
     this.gestureRecognizers,
     this.onPageFinished,
     this.debuggingEnabled = false,
+    this.onPageReceiveError,
+    this.onPageStarted,
     this.userAgent,
     this.initialMediaPlaybackPolicy =
         AutoMediaPlaybackPolicy.require_user_action_for_all_media_types,
@@ -277,6 +287,10 @@ class WebView extends StatefulWidget {
   ///
   /// By default `debuggingEnabled` is false.
   final bool debuggingEnabled;
+
+  final PageReceiveErrorCallback onPageReceiveError;
+
+  final PageStartedCallback onPageStarted;
 
   /// The value used for the HTTP User-Agent: request header.
   ///
@@ -451,6 +465,20 @@ class _PlatformCallbacksHandler implements WebViewPlatformCallbacksHandler {
   void onPageFinished(String url) {
     if (_widget.onPageFinished != null) {
       _widget.onPageFinished(url);
+    }
+  }
+
+  @override
+  void onPageReceiveError({String url, int code, String description}) {
+    if (_widget.onPageReceiveError != null) {
+      _widget.onPageReceiveError(url, code, description);
+    }
+  }
+
+  @override
+  void onPageStarted(String url) {
+    if (_widget.onPageStarted != null) {
+      _widget.onPageStarted(url);
     }
   }
 
