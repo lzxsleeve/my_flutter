@@ -39,7 +39,7 @@ void main() {
         await getSDCardDir();
       } else {
         // 参数1：提示消息// 参数2：提示消息多久后自动隐藏// 参数3：位置
-        ToastUtil.show("请允许存储权限!");
+        LToast.show("请允许存储权限!");
       }
     } else {
       //权限已允许

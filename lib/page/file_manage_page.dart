@@ -108,7 +108,7 @@ class _FileManageState extends State<FileManagePage> {
         ),
       ),
       onTap: () {
-        ToastUtil.show("打开${file.path}");
+        LToast.show("打开${file.path}");
 //        openFile(file.path);
       },
     );

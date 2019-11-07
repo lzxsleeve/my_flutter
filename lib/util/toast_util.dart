@@ -7,16 +7,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class ToastUtil {
-
-  /* 通用的Toast */
-  static void show(String msg) {
+class LToast {
+  /// 通用的Toast
+  static void show(String msg, {gravity = ToastGravity.BOTTOM, toastLength: Toast.LENGTH_SHORT, fontSize = 14.0, Color backgroundColor}) {
     Fluttertoast.showToast(
       msg: msg,
-      gravity: ToastGravity.BOTTOM,
-      toastLength: Toast.LENGTH_SHORT,
-      fontSize: 14,
-      backgroundColor: Color(0x90000000),
+      gravity: gravity,
+      toastLength: toastLength,
+      fontSize: fontSize,
+      backgroundColor: backgroundColor == null ? Color(0x90000000) : backgroundColor,
     );
   }
 }

@@ -13,7 +13,7 @@ class TestPage extends StatefulWidget {
   }
 }
 
-class _TestPageState extends State {
+class _TestPageState extends State<TestPage> {
   String _connectionStatus = 'Unknown';
   final Connectivity _connectivity = Connectivity();
   StreamSubscription<ConnectivityResult> _connectivitySubscription;

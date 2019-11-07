@@ -3,15 +3,14 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:my_flutter/routers/custo_route.dart';
 
 class AppNavigator {
   /// 跳转页面
   static push(BuildContext context, Widget scene) {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (BuildContext context) => scene,
-      ),
+      CustomRoute(scene),
     );
   }
 

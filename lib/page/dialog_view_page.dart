@@ -113,7 +113,7 @@ class _DialogViewState extends State<DialogViewPage> {
                 lastDate: DateTime(2099, 12, 31),
                 locale: Locale('zh', 'CH'),
               ).then((DateTime date) {
-                ToastUtil.show("${date.year}-${date.month}-${date.day}");
+                LToast.show("${date.year}-${date.month}-${date.day}");
               }).catchError((onError) {
                 print(onError);
               });
@@ -230,7 +230,7 @@ class _DialogViewState extends State<DialogViewPage> {
       padding: EdgeInsets.all(0),
       offset: Offset(0, kToolbarHeight),
       onSelected: (String value) {
-        ToastUtil.show(value);
+        LToast.show(value);
         if (value == 'launch') {
           Navigator.pop(context);
         }

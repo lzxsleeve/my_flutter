@@ -8,7 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_flutter/util/toast_util.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-
 class WebViewPage extends StatefulWidget {
   final String url;
   final String title;
@@ -31,47 +30,58 @@ class _WebViewState extends State<WebViewPage> {
     return WillPopScope(
       onWillPop: _requestPop,
       child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          centerTitle: true,
-          title: Text(widget.title),
-          actions: <Widget>[
-            PopupMenuButton<String>(
-              onSelected: (String value) {
-                ToastUtil.show(value);
-                switch (value) {
-                  case 'refresh':
-                    webViewController.reload();
-                    break;
-                  case 'setting':
-                    ToastUtil.show("设置");
-                    break;
-                }
-              },
-              itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
-                PopupMenuItem(
-                  value: 'refresh',
-                  child: ListTile(
-                    leading: Icon(Icons.refresh),
-                    title: Text('刷新'),
-                  ),
-                ),
-                PopupMenuItem(
-                  value: 'setting',
-                  child: ListTile(
-                    leading: Icon(Icons.settings),
-                    title: Text('设置'),
-                  ),
-                )
-              ],
-            ),
-          ],
-        ),
+//        appBar: AppBar(
+//          leading: IconButton(
+//            icon: Icon(Icons.arrow_back),
+//            onPressed: () {
+//              Navigator.pop(context);
+//            },
+//          ),
+//          centerTitle: true,
+//          title: Text(widget.title),
+//          actions: <Widget>[
+//            PopupMenuButton<String>(
+//              onSelected: (String value) {
+//                ToastUtil.show(value);
+//                switch (value) {
+//                  case 'refresh':
+//                    webViewController.reload();
+//                    break;
+//                  case 'setting':
+//                    ToastUtil.show("设置");
+//                    break;
+//                  case 'scan':
+//                    scan();
+//                    ToastUtil.show("扫一扫");
+//                    break;
+//                }
+//              },
+//              itemBuilder: (BuildContext context) => <PopupMenuItem<String>>[
+//                PopupMenuItem(
+//                  value: 'refresh',
+//                  child: ListTile(
+//                    leading: Icon(Icons.refresh),
+//                    title: Text('刷新'),
+//                  ),
+//                ),
+//                PopupMenuItem(
+//                  value: 'setting',
+//                  child: ListTile(
+//                    leading: Icon(Icons.settings),
+//                    title: Text('设置'),
+//                  ),
+//                ),
+//                PopupMenuItem(
+//                  value: 'scan',
+//                  child: ListTile(
+//                    leading: Icon(Icons.center_focus_weak),
+//                    title: Text('扫一扫'),
+//                  ),
+//                )
+//              ],
+//            ),
+//          ],
+//        ),
         body: Stack(
           alignment: AlignmentDirectional.center,
           children: <Widget>[
@@ -90,7 +100,7 @@ class _WebViewState extends State<WebViewPage> {
                   webViewController = web;
                 },
                 onPageFinished: (String url) {
-                  // webview 页面加载完成
+                  // webView 页面加载完成
                   print('lzx: onPageFinished $url');
                   if (!_isError) {
                     setState(() {
@@ -124,7 +134,7 @@ class _WebViewState extends State<WebViewPage> {
             // 显示 正在加载 或 加载错误 的界面
             GestureDetector(
               onTap: () {
-                ToastUtil.show("lzx");
+                LToast.show("lzx");
                 if (_isError) {
                   webViewController.reload();
                 }
