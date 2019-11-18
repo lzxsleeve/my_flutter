@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 /// 说明 Create by lzx on 2019/10/24.
 
@@ -14,55 +15,68 @@ class TestPage extends StatefulWidget {
 }
 
 class _TestPageState extends State<TestPage> {
-  String _connectionStatus = 'Unknown';
-  final Connectivity _connectivity = Connectivity();
-  StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  RefreshController _refreshController = RefreshController();
+
+  List<String> data = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+
+  Widget buildCtn() {
+    return ListView.separated(
+      physics: ClampingScrollPhysics(),
+      padding: EdgeInsets.only(left: 5, right: 5),
+      itemBuilder: (c, i) => _buildListItem(
+        data[i],
+      ),
+      separatorBuilder: (context, index) {
+        return Container(
+          height: 0.5,
+          color: Colors.greenAccent,
+        );
+      },
+      itemCount: data.length,
+    );
+  }
 
   @override
   void initState() {
     super.initState();
-    initConnectivity();
-    _connectivitySubscription =
-        _connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
-      setState(() => _connectionStatus = result.toString());
-    });
-  }
-
-  @override
-  void dispose() {
-    _connectivitySubscription.cancel();
-    super.dispose();
-  }
-
-  //平台消息是异步的，所以我们用异步方法初始化。
-  Future<Null> initConnectivity() async {
-    String connectionStatus;
-    //平台消息可能会失败，因此我们使用Try/Catch PlatformException。
-    try {
-      connectionStatus = (await _connectivity.checkConnectivity()).toString();
-    } catch (e) {
-      print(e.toString());
-      connectionStatus = 'Failed to get connectivity.';
-    }
-
-    // 如果在异步平台消息运行时从树中删除了该小部件，
-    // 那么我们希望放弃回复，而不是调用setstate来更新我们不存在的外观。
-    if (!mounted) {
-      return;
-    }
-
-    setState(() {
-      _connectionStatus = connectionStatus;
-    });
+    _refreshController.loadNoData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Plugin example app'),
+      body: RefreshConfiguration(
+        enableBallisticLoad: false,
+        footerTriggerDistance: -80,
+        maxUnderScrollExtent: 60,
+        child: SmartRefresher(
+          enablePullUp: true,
+          footer: ClassicFooter(
+            loadStyle: LoadStyle.ShowWhenLoading,
+          ),
+          child: buildCtn(),
+          onLoading: () async {
+            await Future.delayed(Duration(milliseconds: 1000));
+//            for(int i =0 ;i<5;i++)
+//            data.add("1");
+//            SmartRefresher.ofState(context).setState((){
+//
+//            });
+            _refreshController.loadFailed();
+          },
+          controller: _refreshController,
+        ),
       ),
-      body: Center(child: Text('Connection Status: $_connectionStatus\n')),
+      appBar: AppBar(),
+    );
+  }
+
+  _buildListItem(String text) {
+    return Container(
+      height: 50,
+      child: Center(
+        child: Text(text),
+      ),
     );
   }
 }

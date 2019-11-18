@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_flutter/property/over_scroll_behavior.dart';
 import 'package:my_flutter/res/gaps.dart';
 import 'package:my_flutter/util/toast_util.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 /// 警报信息 Create by lzx on 2019/11/7.
 
@@ -13,22 +15,28 @@ class AlertPage extends StatefulWidget {
 }
 
 class _AlertState extends State<AlertPage> {
+  RefreshController _refreshController = RefreshController();
   List _list = List();
-  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    return RefreshIndicator(
-      onRefresh: _onRefresh,
-      child: ListView.builder(
-        itemBuilder: (context, index) {
-          if (_list.isEmpty) {
-            return _buildNotData();
-          } else {
-            return _buildNotData();
-          }
-        },
-        itemCount: _list.length == 0 ? 1 : _list.length,
+    return ScrollConfiguration(
+      behavior: OverScrollBehavior(),
+      child: RefreshConfiguration(
+        enableBallisticLoad: false,
+        footerTriggerDistance: -80,
+        maxUnderScrollExtent: 60,
+        child: SmartRefresher(
+          controller: _refreshController,
+          enablePullDown: true,
+          enablePullUp: true,
+          footer: ClassicFooter(
+            loadStyle: LoadStyle.ShowWhenLoading,
+          ),
+          onRefresh: () => _onRefresh(),
+          onLoading: () => _onLoadMore(),
+          child: _list.isEmpty ? _buildNotData() : _buildListView(),
+        ),
       ),
     );
   }
@@ -47,20 +55,41 @@ class _AlertState extends State<AlertPage> {
     );
   }
 
+  _buildListView() {
+    return ListView.builder(
+      itemBuilder: (context, index) {
+        return _buildListItem(index);
+      },
+      itemCount: _list.length,
+    );
+  }
+
+  _buildListItem(int index) {
+    return Container(
+      height: 80,
+      child: Center(
+        child: Text(index.toString()),
+      ),
+    );
+  }
+
   /// 模拟下拉刷新
   Future<void> _onRefresh() async {
-    if (isLoading) {
-      return;
-    }
-    setState(() {
-      isLoading = true;
-    });
-
     await Future.delayed(Duration(seconds: 2), () {
       setState(() {
-        isLoading = false;
-        LToast.show("刷新完成");
+        _list.add("");
+        _list.add("");
+        _list.add("");
+        _list.add("");
       });
+      LToast.show("刷新完成");
+      _refreshController.refreshCompleted(resetFooterState: true);
+    });
+  }
+
+  Future<void> _onLoadMore() async {
+    await Future.delayed(Duration(seconds: 2), () {
+      _refreshController.loadNoData();
     });
   }
 }
