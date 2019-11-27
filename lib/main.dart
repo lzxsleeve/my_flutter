@@ -24,16 +24,14 @@ void main() {
 //  动态申请权限
   Future applyPermission() async {
     // 申请结果  权限检测
-    PermissionStatus permission = await PermissionHandler()
-        .checkPermissionStatus(PermissionGroup.storage);
+    PermissionStatus permission = await PermissionHandler().checkPermissionStatus(PermissionGroup.storage);
 
     if (permission != PermissionStatus.granted) {
       //权限没允许
       await PermissionHandler().requestPermissions([PermissionGroup.storage]);
       //此时要在检测一遍，如果允许了就下载。
       //没允许就就提示。
-      PermissionStatus pp = await PermissionHandler()
-          .checkPermissionStatus(PermissionGroup.storage);
+      PermissionStatus pp = await PermissionHandler().checkPermissionStatus(PermissionGroup.storage);
       if (pp == PermissionStatus.granted) {
         // 权限允许
         await getSDCardDir();
@@ -51,9 +49,7 @@ void main() {
   runApp(MyApp());
   // 透明状态栏
   if (Platform.isAndroid) {
-    SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark);
+    SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(statusBarColor: Colors.transparent, statusBarIconBrightness: Brightness.dark);
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }
 }
@@ -89,16 +85,14 @@ class MyApp extends StatelessWidget {
 }
 
 // 解决CupertinoAlertDialog异常问题
-class FallbackCupertinoLocalisationsDelegate
-    extends LocalizationsDelegate<CupertinoLocalizations> {
+class FallbackCupertinoLocalisationsDelegate extends LocalizationsDelegate<CupertinoLocalizations> {
   const FallbackCupertinoLocalisationsDelegate();
 
   @override
   bool isSupported(Locale locale) => true;
 
   @override
-  Future<CupertinoLocalizations> load(Locale locale) =>
-      DefaultCupertinoLocalizations.load(locale);
+  Future<CupertinoLocalizations> load(Locale locale) => DefaultCupertinoLocalizations.load(locale);
 
   @override
   bool shouldReload(FallbackCupertinoLocalisationsDelegate old) => false;

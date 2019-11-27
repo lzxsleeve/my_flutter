@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_flutter/property/over_scroll_behavior.dart';
 import 'package:my_flutter/res/gaps.dart';
+import 'package:my_flutter/util/log_util.dart';
 import 'package:my_flutter/util/toast_util.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -17,33 +17,44 @@ class AlertPage extends StatefulWidget {
 class _AlertState extends State<AlertPage> {
   RefreshController _refreshController = RefreshController();
   List _list = List();
+  bool _enableLoadMore = false;
 
   @override
   Widget build(BuildContext context) {
-    return ScrollConfiguration(
-      behavior: OverScrollBehavior(),
-      child: RefreshConfiguration(
-        enableBallisticLoad: false,
-        footerTriggerDistance: -80,
-        maxUnderScrollExtent: 60,
-        child: SmartRefresher(
-          controller: _refreshController,
-          enablePullDown: true,
-          enablePullUp: true,
-          footer: ClassicFooter(
-            loadStyle: LoadStyle.ShowWhenLoading,
-          ),
-          onRefresh: () => _onRefresh(),
-          onLoading: () => _onLoadMore(),
-          child: _list.isEmpty ? _buildNotData() : _buildListView(),
+    return RefreshConfiguration(
+      enableBallisticLoad: false,
+      footerTriggerDistance: -60,
+      maxUnderScrollExtent: _enableLoadMore ? 10 : 0,
+      hideFooterWhenNotFull: true,
+      child: SmartRefresher(
+        controller: _refreshController,
+        enablePullDown: true,
+        enablePullUp: true,
+        onOffsetChange: (up, offset) {
+          LogUtil.d("isUp=$up,offset=$offset");
+          if (!up && !_enableLoadMore) {
+            setState(() {
+              _enableLoadMore = true;
+            });
+          }
+        },
+        footer: ClassicFooter(
+          loadStyle: LoadStyle.ShowWhenLoading,
+          loadingText: '正在加载...',
+          canLoadingText: '松手,加载更多!',
+          idleText: '上拉加载更多',
+          failedText: '加载失败!',
+          noDataText: '没有更多数据了!',
         ),
+        onRefresh: () => _onRefresh(),
+        onLoading: () => _onLoadMore(),
+        child: _buildListView(),
       ),
     );
   }
 
   _buildNotData() {
     return Container(
-      width: double.infinity,
       margin: EdgeInsets.only(top: 40),
       child: Column(
         children: <Widget>[
@@ -58,9 +69,13 @@ class _AlertState extends State<AlertPage> {
   _buildListView() {
     return ListView.builder(
       itemBuilder: (context, index) {
-        return _buildListItem(index);
+        if (_list.length == 0) {
+          return _buildNotData();
+        } else {
+          return _buildListItem(index);
+        }
       },
-      itemCount: _list.length,
+      itemCount: _list.length == 0 ? 1 : _list.length,
     );
   }
 
@@ -75,12 +90,14 @@ class _AlertState extends State<AlertPage> {
 
   /// 模拟下拉刷新
   Future<void> _onRefresh() async {
-    await Future.delayed(Duration(seconds: 2), () {
+    await Future.delayed(Duration(milliseconds: 1500), () {
       setState(() {
         _list.add("");
         _list.add("");
         _list.add("");
         _list.add("");
+
+        _enableLoadMore = false;
       });
       LToast.show("刷新完成");
       _refreshController.refreshCompleted(resetFooterState: true);
@@ -88,7 +105,7 @@ class _AlertState extends State<AlertPage> {
   }
 
   Future<void> _onLoadMore() async {
-    await Future.delayed(Duration(seconds: 2), () {
+    await Future.delayed(Duration(milliseconds: 1500), () {
       _refreshController.loadNoData();
     });
   }

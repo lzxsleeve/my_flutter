@@ -37,7 +37,7 @@ dependencies:
   connectivity: ^0.4.5+2
   path_provider: ^1.4.0
   permission_handler: ^3.3.0
-  intl: ^0.16.0
+  intl: ^0.15.8
   dio: ^3.0.4
   pull_to_refresh: ^1.5.7
   #  webview_flutter: ^0.3.15+1
