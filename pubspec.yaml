@@ -24,23 +24,38 @@ dependencies:
     sdk: flutter
 
   # TO UPDATE USE "flutter update-packages --force-upgrade"
-  # UPDATE DATA 2019/11/06
+  # UPDATE PACKAGES DATA 2019/11/30
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
-  fluttertoast: ^3.1.3
-  shared_preferences: ^0.5.4+3
-  synchronized: ^2.1.0+1
+  # https://github.com/tekartik/synchronized.dart
+  synchronized: ^2.1.0+2
+  # 本地存储 官方插件 https://github.com/flutter/plugins
+  shared_preferences: ^0.5.4+6
+  # 路由 https://github.com/theyakka/fluro
   fluro: ^1.5.1
+  # Toast库 https://github.com/PonnamKarthik/FlutterToast
+  fluttertoast: ^3.1.3
+  # 加载网络图片 https://github.com/renefloor/flutter_cached_network_image
   cached_network_image: ^1.1.3
+  # 适配Android 和IOS 的App图标
   flutter_launcher_icons: ^0.7.4
-  connectivity: ^0.4.5+2
-  path_provider: ^1.4.0
-  permission_handler: ^3.3.0
+  # 权限申请 https://github.com/Baseflow/flutter-permission-handler
+  permission_handler: ^4.0.0
+  # 日期格式化 https://github.com/dart-lang/intl
   intl: ^0.15.8
-  dio: ^3.0.4
+  # dio 网络请求 https://github.com/flutterchina/dio
+  dio: ^3.0.7
+  # 刷新加载 https://github.com/peng8350/flutter_pulltorefresh
   pull_to_refresh: ^1.5.7
-  #  webview_flutter: ^0.3.15+1
+  # 文件路径 官方插件 https://github.com/flutter/plugins
+  path_provider: ^1.4.5
+  # google 图表 https://google.github.io/charts/flutter/gallery.html
+  charts_flutter: ^0.8.1
+  # 检测网络状态 https://github.com/flutter/plugins/tree/master/packages/connectivity
+  connectivity: ^0.4.5+6
+  # webview 官方插件 https://github.com/flutter/plugins
+  # webview_flutter: ^0.3.15+1
   webview_flutter:
     path: webview_flutter
 
