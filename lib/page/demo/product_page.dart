@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_flutter/property/over_scroll_behavior.dart';
 
 /// 产品 Create by lzx on 2019/11/7.
 
@@ -14,11 +15,15 @@ class _ProductState extends State<ProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-        itemCount: 8,
-        itemBuilder: (BuildContext context, int index) {
-          return _buildListItem(index);
-        },
+      body: ScrollConfiguration(
+        behavior: OverScrollBehavior(),
+        child: ListView.builder(
+          physics: ClampingScrollPhysics(),
+          itemCount: 8,
+          itemBuilder: (BuildContext context, int index) {
+            return _buildListItem(index);
+          },
+        ),
       ),
     );
   }

@@ -15,6 +15,10 @@ class TextStyles {
     fontSize: 12,
     color: Colours.text_normal,
   );
+  static const TextStyle textNormal14 = const TextStyle(
+    fontSize: 14,
+    color: Colours.text_normal,
+  );
   static const TextStyle textDark12 = const TextStyle(
     fontSize: 12,
     color: Colours.text_dark,

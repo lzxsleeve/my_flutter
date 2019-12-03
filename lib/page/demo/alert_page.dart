@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_flutter/base/app_navigator.dart';
+import 'package:my_flutter/page/demo/alert_detail_page.dart';
 import 'package:my_flutter/res/gaps.dart';
+import 'package:my_flutter/util/image_utils.dart';
 import 'package:my_flutter/util/log_util.dart';
 import 'package:my_flutter/util/toast_util.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -80,11 +83,66 @@ class _AlertState extends State<AlertPage> {
   }
 
   _buildListItem(int index) {
-    return Container(
-      height: 80,
-      child: Center(
-        child: Text(index.toString()),
-      ),
+    return Column(
+      children: <Widget>[
+        InkWell(
+          onTap: () {
+            AppNavigator.push(context, AlertDetailPage());
+          },
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            height: 100,
+            child: Stack(
+              children: <Widget>[
+                Positioned(
+                  left: 0,
+                  child: Column(
+                    children: <Widget>[
+                      Image.asset(ImageUtils.getImgPath('alert2'), width: 40, height: 40),
+                      Gaps.vGap5,
+                      Text('2019-11-27', style: TextStyle(fontSize: 10, color: Color(0xff999999))),
+                      Gaps.vGap5,
+                      Text('15:17:12', style: TextStyle(fontSize: 12, color: Color(0xff777777)))
+                    ],
+                  ),
+                ),
+                Positioned(
+                  left: 70,
+                  top: 0,
+                  bottom: 0,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        children: <Widget>[Text('设备: GHX-0189'), Gaps.hGap5, Text('1.XXXX')],
+                      ),
+                      Gaps.vGap4,
+                      Text('翅片温度传感器故障'),
+                      Gaps.vGap4,
+                      Row(
+                        children: <Widget>[
+                          Text('持续: 20秒', style: TextStyle(fontSize: 12)),
+                          Gaps.hGap5,
+                          Text('结束时间: 11-27 15:18:14', style: TextStyle(fontSize: 12))
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                Positioned(
+                  right: 0,
+                  child: Text('已处理', style: TextStyle(fontSize: 12, color: Colors.green)),
+                )
+              ],
+            ),
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Gaps.line,
+        )
+      ],
     );
   }
 
@@ -96,7 +154,6 @@ class _AlertState extends State<AlertPage> {
         _list.add("");
         _list.add("");
         _list.add("");
-
         _enableLoadMore = false;
       });
       LToast.show("刷新完成");
