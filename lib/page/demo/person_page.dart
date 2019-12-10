@@ -1,10 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_flutter/base/app_navigator.dart';
 import 'package:my_flutter/base/global_config.dart';
+import 'package:my_flutter/page/demo/help_list_page.dart';
+import 'package:my_flutter/page/demo/message_center_page.dart';
+import 'package:my_flutter/page/demo/pc_login_help_doc.dart';
 import 'package:my_flutter/property/over_scroll_behavior.dart';
 import 'package:my_flutter/res/gaps.dart';
 import 'package:my_flutter/util/image_utils.dart';
 import 'package:my_flutter/util/toast_util.dart';
+
+import 'device_share_page.dart';
+import 'operate_log_page.dart';
 
 /// 我的 Create by lzx on 2019/11/6.
 
@@ -26,25 +33,33 @@ class _PersonState extends State<PersonPage> {
             width: double.infinity,
             height: 98,
             padding: EdgeInsets.all(16),
-            child: Stack(
+            child: Row(
               children: <Widget>[
                 CircleAvatar(
                   backgroundImage: ImageUtils.getImageProvider('https://ws1.sinaimg.cn/large/0065oQSqly1g0ajj4h6ndj30sg11xdmj.jpg'),
                   radius: 33,
                 ),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  margin: EdgeInsets.only(left: 86, top: 12),
-                  child: Column(
-                    children: <Widget>[
-                      Text('Name', style: TextStyle(fontSize: 18, color: GlobalConfig.text333)),
-                      Text('x个设备', style: TextStyle(fontSize: 14, color: GlobalConfig.text999))
-                    ],
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(left: 16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('Name', style: TextStyle(fontSize: 18, color: GlobalConfig.text333)),
+                        Text('x个设备', style: TextStyle(fontSize: 14, color: GlobalConfig.text999))
+                      ],
+                    ),
                   ),
                 ),
-                Container(
-                  alignment: Alignment.centerRight,
-                  child: Text('ID:000000', style: TextStyle(color: GlobalConfig.text999)),
+                InkWell(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                    child: Text('ID:000000', style: TextStyle(color: GlobalConfig.text999)),
+                  ),
+                  onTap: () {
+                    AppNavigator.push(context, PcLoginHelpDocPage());
+                  },
                 )
               ],
             ),
@@ -56,7 +71,7 @@ class _PersonState extends State<PersonPage> {
             title: Text('设备分享'),
             trailing: Icon(Icons.arrow_forward_ios, size: 15),
             onTap: () {
-              LToast.show('设备分享');
+              AppNavigator.push(context, DeviceSharePage());
             },
           ),
           Gaps.line,
@@ -66,7 +81,7 @@ class _PersonState extends State<PersonPage> {
             title: Text('消息中心'),
             trailing: Icon(Icons.arrow_forward_ios, size: 15),
             onTap: () {
-              LToast.show('消息中心');
+              AppNavigator.push(context, MessageCenterPage());
             },
           ),
           Gaps.line,
@@ -76,7 +91,7 @@ class _PersonState extends State<PersonPage> {
             title: Text('操作日志'),
             trailing: Icon(Icons.arrow_forward_ios, size: 15),
             onTap: () {
-              LToast.show('操作日志');
+              AppNavigator.push(context, OperateLogPage());
             },
           ),
           Gaps.line,
@@ -86,7 +101,7 @@ class _PersonState extends State<PersonPage> {
             title: Text('帮助'),
             trailing: Icon(Icons.arrow_forward_ios, size: 15),
             onTap: () {
-              LToast.show('帮助');
+              AppNavigator.push(context, HelpListPage());
             },
           ),
           Gaps.line,

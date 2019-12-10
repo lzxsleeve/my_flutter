@@ -6,6 +6,7 @@ import 'package:my_flutter/res/gaps.dart';
 import 'package:my_flutter/util/image_utils.dart';
 import 'package:my_flutter/util/log_util.dart';
 import 'package:my_flutter/util/toast_util.dart';
+import 'package:my_flutter/widgets/smart_refresh_res.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 /// 警报信息 Create by lzx on 2019/11/7.
@@ -20,40 +21,23 @@ class AlertPage extends StatefulWidget {
 class _AlertState extends State<AlertPage> {
   RefreshController _refreshController = RefreshController();
   List _list = List();
-  bool _enableLoadMore = false;
+  bool _loadEnableState = false;
 
   @override
   Widget build(BuildContext context) {
-    return RefreshConfiguration(
-      enableBallisticLoad: false,
-      footerTriggerDistance: -60,
-      maxUnderScrollExtent: _enableLoadMore ? 10 : 0,
-      hideFooterWhenNotFull: true,
-      child: SmartRefresher(
+    return SmartRefreshRes.build(
         controller: _refreshController,
-        enablePullDown: true,
-        enablePullUp: true,
+        child: _buildListView(),
+        onRefresh: _onRefresh,
+        onLoadMore: _onLoadMore,
         onOffsetChange: (up, offset) {
-          LogUtil.d("isUp=$up,offset=$offset");
-          if (!up && !_enableLoadMore) {
+          if (!up && !_loadEnableState && offset > 0) {
             setState(() {
-              _enableLoadMore = true;
+              _loadEnableState = true;
             });
           }
         },
-        footer: ClassicFooter(
-          loadStyle: LoadStyle.ShowWhenLoading,
-          loadingText: '正在加载...',
-          canLoadingText: '松手,加载更多!',
-          idleText: '上拉加载更多',
-          failedText: '加载失败!',
-          noDataText: '没有更多数据了!',
-        ),
-        onRefresh: () => _onRefresh(),
-        onLoading: () => _onLoadMore(),
-        child: _buildListView(),
-      ),
-    );
+        loadEnableState: _loadEnableState);
   }
 
   _buildNotData() {
@@ -154,7 +138,7 @@ class _AlertState extends State<AlertPage> {
         _list.add("");
         _list.add("");
         _list.add("");
-        _enableLoadMore = false;
+        _loadEnableState = false;
       });
       LToast.show("刷新完成");
       _refreshController.refreshCompleted(resetFooterState: true);

@@ -27,6 +27,12 @@ class Gaps {
     child: const DecoratedBox(decoration: BoxDecoration(color: Colours.line)),
   );
 
+  static Widget vLine = const SizedBox(
+    height: double.infinity,
+    width: 0.6,
+    child: const DecoratedBox(decoration: BoxDecoration(color: Colours.line)),
+  );
+
   ///自定义水平间隔
   static Widget buildHGap(double width) {
     return SizedBox(width: width);

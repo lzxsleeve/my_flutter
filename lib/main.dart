@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:my_flutter/page/home_page.dart';
@@ -46,6 +47,10 @@ void main() {
   }
 
   applyPermission();
+
+  /// 开启布局线
+//  debugPaintSizeEnabled = true;
+
   runApp(MyApp());
   // 透明状态栏
   if (Platform.isAndroid) {
@@ -64,7 +69,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: '首页',
+      title: 'Flutter_Learn',
       theme: ThemeData(
         primaryColor: Colours.app_main,
         scaffoldBackgroundColor: Colors.white,
