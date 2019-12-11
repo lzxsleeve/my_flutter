@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 /// 带文字切换控件, 控件宽度需要自己调整 Create by lzx on 2019/11/30.
-
+// ignore: must_be_immutable
 class TextSwitch extends StatefulWidget {
   String onText;
   String offText;

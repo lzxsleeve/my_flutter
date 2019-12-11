@@ -5,11 +5,12 @@ import 'package:my_flutter/util/log_util.dart';
 
 /// 温度时间线形图 Create by lzx on 2019/12/2.
 class SimpleTimeSeriesChart extends StatelessWidget {
-  final List<TimeSeriesSales> data;
+  final List<TimeSeriesTemp> data;
   final bool animate;
   final Function(DateTime time, num) selectFun;
+  final String timeFormat;
 
-  SimpleTimeSeriesChart(this.data, {this.animate, this.selectFun});
+  SimpleTimeSeriesChart(this.data, {this.animate, this.selectFun, this.timeFormat});
 
   /// Creates a [TimeSeriesChart] with sample data and no transition.
   factory SimpleTimeSeriesChart.withSampleData() {
@@ -26,14 +27,17 @@ class SimpleTimeSeriesChart extends StatelessWidget {
       dataToSeriesList(data),
       animate: animate,
       primaryMeasureAxis: charts.NumericAxisSpec(
-          tickProviderSpec: charts.BasicNumericTickProviderSpec(
-            zeroBound: false,
-            desiredTickCount: 4,
-          ),
-          tickFormatterSpec: charts.BasicNumericTickFormatterSpec.fromNumberFormat(NumberFormat('0℃'))),
+        tickProviderSpec: charts.BasicNumericTickProviderSpec(
+          zeroBound: false,
+          desiredTickCount: 4,
+        ),
+        /// 格式化纵坐标数字格式
+        tickFormatterSpec: charts.BasicNumericTickFormatterSpec.fromNumberFormat(NumberFormat('0℃')),
+      ),
       domainAxis: charts.DateTimeAxisSpec(
+        /// 格式化横坐标时间格式
         tickFormatterSpec: charts.AutoDateTimeTickFormatterSpec(
-          hour: charts.TimeFormatterSpec(format: 'HH:mm', transitionFormat: 'HH:mm'),
+          hour: charts.TimeFormatterSpec(format: 'HH:mm', transitionFormat: timeFormat ?? 'HH:mm'),
         ),
       ),
       dateTimeFactory: const charts.LocalDateTimeFactory(),
@@ -44,6 +48,7 @@ class SimpleTimeSeriesChart extends StatelessWidget {
         ),
         charts.SelectNearest(eventTrigger: charts.SelectionTrigger.tapAndDrag),
       ],
+      /// 选择模式
       selectionModels: [
         charts.SelectionModelConfig(
           type: charts.SelectionModelType.info,
@@ -58,46 +63,47 @@ class SimpleTimeSeriesChart extends StatelessWidget {
               });
             }
             LogUtil.d("time=$time,measures=$measures");
-            selectFun(time, measures['Sales']);
+            selectFun(time, measures['temp']);
           },
         )
       ],
     );
   }
 
-  static List<charts.Series<TimeSeriesSales, DateTime>> dataToSeriesList(List<TimeSeriesSales> data){
-    return[
-      charts.Series<TimeSeriesSales, DateTime>(
-        id: 'Sales',
+  /// List<TimeSeriesSales> 转 List<charts.Series<TimeSeriesSales, DateTime>>
+  static List<charts.Series<TimeSeriesTemp, DateTime>> dataToSeriesList(List<TimeSeriesTemp> data) {
+    return [
+      charts.Series<TimeSeriesTemp, DateTime>(
+        id: 'temp',
         colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
-        domainFn: (TimeSeriesSales sales, _) => sales.time,
-        measureFn: (TimeSeriesSales sales, _) => sales.sales,
+        domainFn: (TimeSeriesTemp sales, _) => sales.time,
+        measureFn: (TimeSeriesTemp sales, _) => sales.temp,
         data: data,
       )
     ];
   }
 
   /// Create one series with sample hard coded data.
-  static List<TimeSeriesSales> _createSampleData() {
+  static List<TimeSeriesTemp> _createSampleData() {
     return [
-      TimeSeriesSales(DateTime(2019, 11, 30, 12, 0, 0), 21.5),
-      TimeSeriesSales(DateTime(2019, 11, 30, 12, 30, 0), 22.6),
-      TimeSeriesSales(DateTime(2019, 11, 30, 13, 0, 0), 21.0),
-      TimeSeriesSales(DateTime(2019, 11, 30, 13, 30, 0), 26.3),
-      TimeSeriesSales(DateTime(2019, 11, 30, 14, 0, 0), 31.1),
-      TimeSeriesSales(DateTime(2019, 11, 30, 14, 30, 0), 24.4),
-      TimeSeriesSales(DateTime(2019, 11, 30, 15, 0, 0), 25.1),
-      TimeSeriesSales(DateTime(2019, 11, 30, 15, 30, 0), 24.9),
-      TimeSeriesSales(DateTime(2019, 11, 30, 16, 0, 0), 22.3),
-      TimeSeriesSales(DateTime(2019, 11, 30, 16, 30, 0), 19.8),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 12, 0, 0), 21.5),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 12, 30, 0), 22.6),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 13, 0, 0), 21.0),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 13, 30, 0), 26.3),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 14, 0, 0), 31.1),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 14, 30, 0), 24.4),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 15, 0, 0), 25.1),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 15, 30, 0), 24.9),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 16, 0, 0), 22.3),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 16, 30, 0), 19.8),
     ];
   }
 }
 
 /// Sample time series data type.
-class TimeSeriesSales {
+class TimeSeriesTemp {
   final DateTime time;
-  final double sales;
+  final double temp;
 
-  TimeSeriesSales(this.time, this.sales);
+  TimeSeriesTemp(this.time, this.temp);
 }

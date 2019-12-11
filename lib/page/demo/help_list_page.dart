@@ -39,7 +39,7 @@ class _HelpListState extends State<HelpListPage> {
   _buildItem(String text) {
     return ListTile(
       title: Text(text),
-      trailing: Icon(Icons.arrow_forward_ios),
+      trailing: Icon(Icons.arrow_forward_ios, size: 15),
       onTap: () {
         AppNavigator.push(context, HelpDocPage());
       },

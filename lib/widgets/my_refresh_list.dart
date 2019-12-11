@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 /// 封装下拉刷新和下拉加载的List Create by lzx on 2019/11/20.
+/// 无法使用：RefreshController无效！
+/// see: https://github.com/peng8350/flutter_pulltorefresh/issues/220
 
 class MyRefreshList extends StatefulWidget {
   const MyRefreshList({

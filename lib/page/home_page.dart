@@ -48,11 +48,11 @@ class _HomePageState extends State<HomePage> {
         _buildInk(
             'WebView',
             () => NavigatorUtils.goWebViewPage(
-                context, 'NutUI', 'http://192.168.199.220:8081/#/')),
+                context, 'NutUI', 'https://nutui.jd.com/demo.html#/index')),
         _buildInk('Dialog集成',
             () => NavigatorUtils.push(context, PageRouter.dialogPage)),
-        _buildInk('Animation',
-            () => NavigatorUtils.push(context, PageRouter.animPage)),
+//        _buildInk('Animation',
+//            () => NavigatorUtils.push(context, PageRouter.animPage)),
         _buildInk('File',
             () => NavigatorUtils.push(context, PageRouter.filePage)),
         _buildInk('Test',

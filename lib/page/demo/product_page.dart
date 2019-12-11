@@ -12,12 +12,15 @@ class ProductPage extends StatefulWidget {
 }
 
 class _ProductState extends State<ProductPage> {
+  ScrollController _controller = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ScrollConfiguration(
         behavior: OverScrollBehavior(),
         child: ListView.builder(
+          controller: _controller,
           physics: ClampingScrollPhysics(),
           itemCount: 8,
           itemBuilder: (BuildContext context, int index) {

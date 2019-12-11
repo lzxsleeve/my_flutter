@@ -1,18 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:my_flutter/base/app_navigator.dart';
 import 'package:my_flutter/page/demo/device_detail_page.dart';
 import 'package:my_flutter/page/demo/device_list_page.dart';
 import 'package:my_flutter/property/over_scroll_behavior.dart';
 import 'package:my_flutter/res/gaps.dart';
-import 'package:my_flutter/routers/fluro_navigator.dart';
+import 'package:my_flutter/res/styles.dart';
 import 'package:my_flutter/util/image_utils.dart';
 import 'package:my_flutter/util/log_util.dart';
 import 'package:my_flutter/util/toast_util.dart';
 import 'package:my_flutter/widgets/text_switch.dart';
 
 /// 设备 Create by lzx on 2019/11/7.
+/// todo() TabView 需要分为两个 StatefulWidget
 
 class DevicePage extends StatefulWidget {
   @override
@@ -210,7 +212,7 @@ class _DeviceState extends State<DevicePage> {
                     Gaps.vGap8,
                     GestureDetector(
                       onTap: () {
-                        LToast.show("目标温度点击");
+                        showDialog(context: context, builder: (context) => _buildTempDialog());
                       },
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -227,6 +229,46 @@ class _DeviceState extends State<DevicePage> {
           ),
         ),
       ),
+    );
+  }
+
+  _buildTempDialog() {
+    return AlertDialog(
+      title: Text('提示'),
+      content: Container(
+        height: 70,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              '请输入目标温度',
+              style: TextStyles.textNormal14,
+            ),
+            TextField(
+              style: TextStyle(fontSize: 14),
+              decoration: InputDecoration(hintText: '请输入'),
+              inputFormatters: [
+                WhitelistingTextInputFormatter(RegExp("[0-9.]")),
+              ],
+              keyboardType: TextInputType.numberWithOptions(),
+            )
+          ],
+        ),
+      ),
+      actions: <Widget>[
+        new FlatButton(
+          child: new Text("取消"),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+        new FlatButton(
+          child: new Text("确定"),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
     );
   }
 
@@ -258,16 +300,6 @@ class _DeviceState extends State<DevicePage> {
         ],
       ),
     );
-  }
-
-  /// 模拟下拉刷新
-  Future<void> _onRefresh(List list) async {
-    await Future.delayed(Duration(seconds: 1), () {
-      setState(() {
-        list.add("");
-        LToast.show("刷新完成");
-      });
-    });
   }
 
   _showBottomSheet() {

@@ -20,7 +20,7 @@ class TimeLineItem extends StatefulWidget {
 }
 
 class _TimeLineItemState extends State<TimeLineItem> {
-  double item_height = 0.0;
+  double itemHeight = 0.0;
   GlobalKey textKey = new GlobalKey();
 
   @override
@@ -33,9 +33,9 @@ class _TimeLineItemState extends State<TimeLineItem> {
       ///  获取相应控件的size
       RenderObject renderObject = textKey.currentContext.findRenderObject();
       setState(() {
-        item_height = renderObject.semanticBounds.size.height;
+        itemHeight = renderObject.semanticBounds.size.height;
       });
-      LogUtil.d("高度：$item_height");
+      LogUtil.d("高度：$itemHeight");
     });
   }
 
@@ -44,7 +44,7 @@ class _TimeLineItemState extends State<TimeLineItem> {
     return Row(
       children: <Widget>[
         Container(
-          height: item_height, // 高度需自适应
+          height: itemHeight, // 高度需自适应
           child: Column(
             children: <Widget>[
               Expanded(
@@ -54,13 +54,34 @@ class _TimeLineItemState extends State<TimeLineItem> {
                 ),
               ),
               Container(
-                height: 10,
-                width: 10,
-                decoration: BoxDecoration(
-                  color: Colors.green,
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                height: 15,
+                width: 15,
+                child: Stack(
+                  children: <Widget>[
+                    Center(
+                      child: Container(
+                        height: 15,
+                        width: 15,
+                        decoration: BoxDecoration(
+                          color: Colors.green[100],
+                          borderRadius: BorderRadius.all(Radius.circular(7.5)),
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: Container(
+                        height: 10,
+                        width: 10,
+                        decoration: BoxDecoration(
+                          color: Colors.green[400],
+                          borderRadius: BorderRadius.all(Radius.circular(5)),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-              ),
+              )
+              ,
               Expanded(
                 child: SizedBox(
                   width: 0.6,

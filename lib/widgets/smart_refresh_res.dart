@@ -49,9 +49,9 @@ class SmartRefreshRes {
     Widget header,
     Widget footer,
   }) {
-    return buildRefreshConfiguration(
+    return _buildRefreshConfiguration(
       loadEnableState: loadEnableState,
-      child: buildSmartRefresher(
+      child: _buildSmartRefresher(
         controller: controller,
         child: child,
         onRefresh: onRefresh,
@@ -65,7 +65,7 @@ class SmartRefreshRes {
   }
 
   /// SmartRefresher 常用配置
-  static buildRefreshConfiguration({@required Widget child, bool loadEnableState = false}) {
+  static _buildRefreshConfiguration({@required Widget child, bool loadEnableState = false}) {
     return RefreshConfiguration(
       enableBallisticLoad: false,
       footerTriggerDistance: -60,
@@ -77,7 +77,7 @@ class SmartRefreshRes {
 
   /// 构建 SmartRefresher
   /// child的详细说明 see: [ https://github.com/peng8350/flutter_pulltorefresh/blob/master/README_CN.md/#对smartrefresher里child详细说明 ]
-  static buildSmartRefresher({
+  static _buildSmartRefresher({
     @required RefreshController controller,
     @required Widget child,
     @required Function onRefresh,

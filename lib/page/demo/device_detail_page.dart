@@ -82,33 +82,33 @@ class _DeviceDetailState extends State<DeviceDetailPage> {
   }
 
   /// Create one series with sample hard coded data.
-  static List<TimeSeriesSales> _sampleData() {
+  static List<TimeSeriesTemp> _sampleData() {
     return [
-      TimeSeriesSales(DateTime(2019, 11, 30, 12, 0, 0), 21.5),
-      TimeSeriesSales(DateTime(2019, 11, 30, 12, 30, 0), 22.6),
-      TimeSeriesSales(DateTime(2019, 11, 30, 13, 0, 0), 21.0),
-      TimeSeriesSales(DateTime(2019, 11, 30, 13, 30, 0), 26.3),
-      TimeSeriesSales(DateTime(2019, 11, 30, 14, 0, 0), 31.1),
-      TimeSeriesSales(DateTime(2019, 11, 30, 14, 30, 0), 24.4),
-      TimeSeriesSales(DateTime(2019, 11, 30, 15, 0, 0), 25.1),
-      TimeSeriesSales(DateTime(2019, 11, 30, 15, 30, 0), 24.9),
-      TimeSeriesSales(DateTime(2019, 11, 30, 16, 0, 0), 22.3),
-      TimeSeriesSales(DateTime(2019, 11, 30, 16, 30, 0), 19.8),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 12, 0, 0), 21.5),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 12, 30, 0), 22.6),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 13, 0, 0), 21.0),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 13, 30, 0), 26.3),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 14, 0, 0), 31.1),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 14, 30, 0), 24.4),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 15, 0, 0), 25.1),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 15, 30, 0), 24.9),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 16, 0, 0), 22.3),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 16, 30, 0), 19.8),
     ];
   }
 
-  List<TimeSeriesSales> _sampleData1() {
+  List<TimeSeriesTemp> _sampleData1() {
     return [
-      TimeSeriesSales(DateTime(2019, 11, 30, 12, 0, 0), 20.5),
-      TimeSeriesSales(DateTime(2019, 11, 30, 12, 30, 0), 25.6),
-      TimeSeriesSales(DateTime(2019, 11, 30, 13, 0, 0), 24.0),
-      TimeSeriesSales(DateTime(2019, 11, 30, 13, 30, 0), 29.3),
-      TimeSeriesSales(DateTime(2019, 11, 30, 14, 0, 0), 21.1),
-      TimeSeriesSales(DateTime(2019, 11, 30, 14, 30, 0), 27.4),
-      TimeSeriesSales(DateTime(2019, 11, 30, 15, 0, 0), 26.1),
-      TimeSeriesSales(DateTime(2019, 11, 30, 15, 30, 0), 23.9),
-      TimeSeriesSales(DateTime(2019, 11, 30, 16, 0, 0), 21.3),
-      TimeSeriesSales(DateTime(2019, 11, 30, 16, 30, 0), 28.8),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 12, 0, 0), 20.5),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 12, 30, 0), 25.6),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 13, 0, 0), 24.0),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 13, 30, 0), 29.3),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 14, 0, 0), 21.1),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 14, 30, 0), 27.4),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 15, 0, 0), 26.1),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 15, 30, 0), 23.9),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 16, 0, 0), 21.3),
+      TimeSeriesTemp(DateTime(2019, 11, 30, 16, 30, 0), 28.8),
     ];
   }
 
