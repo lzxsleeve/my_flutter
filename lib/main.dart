@@ -52,6 +52,7 @@ void main() {
 //  debugPaintSizeEnabled = true;
 
   runApp(MyApp());
+
   // 透明状态栏
   if (Platform.isAndroid) {
     SystemUiOverlayStyle systemUiOverlayStyle = SystemUiOverlayStyle(statusBarColor: Colors.transparent, statusBarIconBrightness: Brightness.dark);
