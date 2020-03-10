@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_flutter/property/over_scroll_behavior.dart';
 import 'package:my_flutter/res/gaps.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:my_flutter/widgets/temp_time_chart.dart';
 
 /// 设备参数详情 Create by lzx on 2019/11/30.
@@ -37,8 +36,15 @@ class _DeviceDetailState extends State<DeviceDetailPage> {
                 child: Stack(
                   alignment: AlignmentDirectional.centerStart,
                   children: <Widget>[
-                    Positioned(left: 0, child: Text('HX-0199', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold))),
-                    Positioned(right: 0, child: Text('运行中', style: TextStyle(color: Colors.green)))
+                    Positioned(
+                        left: 0,
+                        child: Text('HX-0199',
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold))),
+                    Positioned(
+                        right: 0,
+                        child:
+                            Text('运行中', style: TextStyle(color: Colors.green)))
                   ],
                 ),
               ),
@@ -61,7 +67,8 @@ class _DeviceDetailState extends State<DeviceDetailPage> {
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 height: 200,
-                child: SimpleTimeSeriesChart(chartData ? _sampleData() : _sampleData1()),
+                child: SimpleTimeSeriesChart(
+                    chartData ? _sampleData() : _sampleData1()),
               ),
               Gaps.vGap8,
               Gaps.line,
@@ -117,7 +124,10 @@ class _DeviceDetailState extends State<DeviceDetailPage> {
       height: 48,
       child: Stack(
         alignment: AlignmentDirectional.centerStart,
-        children: <Widget>[Positioned(left: 0, child: Text(title)), Positioned(right: 0, child: Text(content))],
+        children: <Widget>[
+          Positioned(left: 0, child: Text(title)),
+          Positioned(right: 0, child: Text(content))
+        ],
       ),
     );
   }
@@ -133,7 +143,8 @@ class _DeviceDetailState extends State<DeviceDetailPage> {
         child: Text(text, style: TextStyle(fontSize: 12)),
         elevation: isSelect ? 4 : 0,
         color: isSelect ? Colors.green[350] : Colors.transparent,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20))),
         highlightElevation: 0,
       ),
     );
@@ -141,7 +152,9 @@ class _DeviceDetailState extends State<DeviceDetailPage> {
 
   void toggleFun(int index) {
     setState(() {
-      for (int buttonIndex = 0; buttonIndex < isSelected.length; buttonIndex++) {
+      for (int buttonIndex = 0;
+          buttonIndex < isSelected.length;
+          buttonIndex++) {
         if (buttonIndex == index) {
           chartData = !chartData;
           isSelected[buttonIndex] = true;
